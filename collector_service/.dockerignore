@@ -1,0 +1,8 @@
+node_modules
+npm-debug.log
+.vscode
+consumer.js
+junk.js
+mqtt-message.js
+tmp.json
+Dockerfile

@@ -1,0 +1,20 @@
+{
+  "name": "car_watcher_collector",
+  "version": "1.0.0",
+  "description": "Microservice for collecting data from (IoT) devices placed in vehicles in CarWatcher app",
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "node ./src/index.js"
+  },
+  "author": "Uros Vukic",
+  "license": "MIT",
+  "dependencies": {
+    "amqplib": "^0.6.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "http-status-codes": "^1.4.0",
+    "mongoose": "^5.10.0"
+  }
+}
