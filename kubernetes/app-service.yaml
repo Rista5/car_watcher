@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+  labels:
+    app: app-service
+spec:
+  type: NodePort
+  selector:
+    app: app-service
+  ports:
+    - port: 3001
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-service
+  labels:
+    app: app-service
+spec:
+  selector:
+    matchLabels:
+      app: app-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: app-service
+    spec:
+      containers:
+        - name: app-service
+          image: urosv/car-watcher-api:1.0.3
+          ports:
+            - containerPort: 3001
+      initContainers:
+        - name: wait-for-db
+          image: busybox:1.28
+          command: ['sh', '-c', "while [[ $(kubectl get pods -l app=app-servicedb -o 'jsonpath={..status.conditions[?(@.type==\"Ready\")].status}') != \"True\" ]]; do echo \"waiting for database\" && sleep 15; done"]
+        - name: wait-for-rabbitmq
+          image: busybox:1.28
+          command: ['sh', '-c', "while [[ $(kubectl get pods -l app=rabbitmq-mqtt-time -o 'jsonpath={..status.conditions[?(@.type==\"Ready\")].status}') != \"True\" ]]; do echo \"waiting for rabbitmq\" && sleep 15; done"]
+
+    

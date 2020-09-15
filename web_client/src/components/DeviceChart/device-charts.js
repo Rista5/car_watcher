@@ -72,8 +72,6 @@ class DeviceChartsComponent extends React.Component {
     const key = Object.keys(SensorMappings)
       .find(k => SensorMappings[k].text === value);
     const mapping = SensorMappings[key];
-    console.log('Key', key);
-    console.log('Mapping', mapping);
     if (!mapping) {
       return;
     }

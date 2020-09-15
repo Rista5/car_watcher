@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-servicedb
+  labels:
+    app: app-servicedb
+spec:
+  # selector:
+  #   app: app-servicedb
+  type: ClusterIP
+  ports:
+  - port: 5432
+  selector:
+    app: app-servicedb
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-servicedb
+  labels:
+    app: app-servicedb
+spec:
+  selector:
+    matchLabels:
+      app: app-servicedb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: app-servicedb
+    spec:
+      containers:
+        - name: app-servicedb
+          image: postgres
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - secretRef:
+                name: api-service-postgres-secret
+          volumeMounts:
+            - name: app-servicedb-volume
+              mountPath: /var/lib/postgresql/data
+              subPath: data
+      volumes:
+        - name: app-servicedb-volume
+          persistentVolumeClaim:
+            claimName: app-service-pv
+

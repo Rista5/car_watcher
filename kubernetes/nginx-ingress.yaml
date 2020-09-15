@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite /$1 break;
+      rewrite ^/services/app-service/(.*)$ /$1 break;
+      rewrite ^/services/collector/(.*)$ /$1 break;
+      rewrite ^/services/rabbitmq/(.*)$ /$1 break;
+      rewrite ^/services/mqtt/(.*)$ /$1 break;
+spec:
+  rules:
+    - host: car-watcher.com
+      http:
+        paths:
+          - path: /services/app-service/
+            backend:
+              serviceName: app-service
+              servicePort: 3001
+          - path: /services/collector/
+            backend:
+              serviceName: collector
+              servicePort: 3000
+          - path: /services/rabbitmq/
+            backend:
+                serviceName: rabbitmq-mqtt-time
+                servicePort: 5672
+          - path: /services/rabbitmq-admin/
+            backend:
+                serviceName: rabbitmq-mqtt-time
+                servicePort: 15672
+          - path: /services/mqtt/
+            backend:
+                serviceName: rabbitmq-mqtt-time
+                servicePort: 1883

@@ -1,6 +1,6 @@
 const amqp = require('amqplib');
 
-const connectionString = 'amqp://localhost';
+const connectionString = require('./../config').rabbitmqHost;
 const exchange = 'CarWatcher';
 const queueName = 'CarWatcherServer';
 const queueBindings = ['*.CarWatcherServer'];
@@ -8,7 +8,7 @@ const queueBindings = ['*.CarWatcherServer'];
 
 async function setupRabbitMQConnection(connStr, queueName, exchange, queueBindings) {
     try {
-        const conn = await amqp.connect(connStr);
+        const conn = await amqp.connect(`amqp://${connStr}`);
         const channel = await conn.createChannel();
 
         await channel.assertExchange(exchange, 'topic', {durable: true});
@@ -54,7 +54,7 @@ async function consumeMessage(msg) {
 }
 
 async function publishMessage(msgType, data) {
-    // return true;
+    
     if(!msgType || msgType == '') {
         console.log('Message type cant be empty');
         return false;

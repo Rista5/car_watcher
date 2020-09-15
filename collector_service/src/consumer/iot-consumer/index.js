@@ -89,7 +89,7 @@ async function init() {
         conn, 
         iotQueueName, 
         iotExchange, 
-        Array.from(iotQueueBindings),
+        Array.from(iotQueueBindings).map(b => getBindingString(b)),
         consumeMessage);
 }
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const READINGS_URL = 'http://localhost:3000';
+const READINGS_URL = 'http://car-watcher.com/services/collector';//'http://localhost:3000';
 
 const instance = axios.create({
   baseURL: READINGS_URL,

@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-mqtt-time
+spec:
+  type: NodePort
+  selector:
+    app: rabbitmq-mqtt-time
+  ports:
+  - name: rabbitmq-mqtt-time
+    port: 5672
+  - name: management
+    port: 15672
+  - name: mqtt
+    port: 1883
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-mqtt-time
+  labels:
+    app: rabbitmq-mqtt-time
+spec:
+  selector:
+    matchLabels:
+      app: rabbitmq-mqtt-time
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rabbitmq-mqtt-time
+    spec:
+      containers:
+      - name: rabbitmq-mqtt-time
+        image: urosv/rabbitmq-mqtt-time:1.0.0
+        ports:
+        - containerPort: 5672
+        - containerPort: 15672
+        - containerPort: 1883
+        # volumeMounts:
+        #   - 
+  # volumes:
+  #   - name: rabbitmq-volume
+  #     persistentVolumeClaim:
+  #       claimName: rabbitmq-pv

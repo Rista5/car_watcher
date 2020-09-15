@@ -30,13 +30,7 @@ function preapareChartData(readings, sensorMapping, startDate, endDate) {
       maintainAspectRatio: false,
       responsive: false,
       tooltips: {
-        mode: 'label',
-        callbacks: {
-          title: function (tooltipItem, data) {
-            console.log(tooltipItem, data)
-            return 'tooltipItem: '+ tooltipItem + ' data: ' + data;
-          },
-        }
+        mode: 'label'
       },
       scales: {
         xAxes: [{

@@ -10,11 +10,11 @@ function expandDataPoints(data) {
     const date = new Date(hr.date);
     const readings = hr.hourReadings.map(r => {
       const newReading = {
-        date: addMinAndSecToDate(date, r.minutes, r.seconds),
+        date: addMinAndSecToDate(date, r.min, r.sec),
         ...r
       };
-      delete newReading.minutes;
-      delete newReading.seconds;
+      delete newReading.min;
+      delete newReading.sec;
       
       return newReading;
     });

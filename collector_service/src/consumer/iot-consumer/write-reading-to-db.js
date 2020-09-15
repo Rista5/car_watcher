@@ -21,11 +21,16 @@ async function writeReadingToDB(clientId, date, data) {
 
     console.log('Readings', readings);
     console.log('saving', reading);
+    const toDate = new Date(nDate);
+    toDate.setMilliseconds(1);
 
     const sens = await DeviceReading.findOne({
         deviceId: clientId,
-        date: nDate
+        date: {$gte: nDate, $lte: toDate} //nDate
     });
+
+    console.log('Sens', sens);
+    console.log('nDate', nDate, toDate);
     
     if (!sens) {
         const newSens = new DeviceReading({

@@ -1,10 +1,10 @@
 const amqp = require('amqplib');
 
-const connectionString = 'amqp://localhost';
+const connectionString = require('./../config').rabbitmqHost; //'amqp://localhost';
 
 async function setupRabbitMQConnection(connStr) {
     try {
-        const conn = await amqp.connect(connStr);
+        const conn = await amqp.connect(`amqp://${connStr}`);
         const channel = await conn.createChannel();
 
         process.on('exit', (code) => {
