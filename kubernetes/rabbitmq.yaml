@@ -39,9 +39,11 @@ spec:
         - containerPort: 5672
         - containerPort: 15672
         - containerPort: 1883
-        # volumeMounts:
-        #   - 
-  # volumes:
-  #   - name: rabbitmq-volume
-  #     persistentVolumeClaim:
-  #       claimName: rabbitmq-pv
+        volumeMounts:
+          - name: rabbitmq-data
+            mountPath: /var/lib/rabbitmq
+
+      volumes:
+        - name: rabbitmq-data
+          persistentVolumeClaim:
+            claimName: rabbitmq-pv

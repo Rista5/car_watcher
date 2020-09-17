@@ -7,6 +7,7 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/configuration-snippet: |
       rewrite /$1 break;
+      rewrite ^/services/rabbitmq-admin/(.*)$ /$1 break;
       rewrite ^/services/app-service/(.*)$ /$1 break;
       rewrite ^/services/collector/(.*)$ /$1 break;
       rewrite ^/services/rabbitmq/(.*)$ /$1 break;

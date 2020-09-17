@@ -5,8 +5,6 @@ metadata:
   labels:
     app: collectordb
 spec:
-  # selector:
-  #   app: collectordb
   type: ClusterIP
   ports:
   - port: 27017
