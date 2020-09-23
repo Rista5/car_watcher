@@ -13,24 +13,19 @@ async function writeReadingToDB(clientId, date, data) {
         min: minutes,
         sec: seconds,
         temp: readings.temperature,
-        rpm: readings.batt,
+        rpm: readings.rpm,
         speed: readings.speed,
         gas: readings.gas,
         batt: readings.battery_charge
     });
 
-    console.log('Readings', readings);
-    console.log('saving', reading);
     const toDate = new Date(nDate);
     toDate.setMilliseconds(1);
 
     const sens = await DeviceReading.findOne({
         deviceId: clientId,
-        date: {$gte: nDate, $lte: toDate} //nDate
+        date: {$gte: nDate, $lte: toDate} 
     });
-
-    console.log('Sens', sens);
-    console.log('nDate', nDate, toDate);
     
     if (!sens) {
         const newSens = new DeviceReading({
@@ -43,11 +38,9 @@ async function writeReadingToDB(clientId, date, data) {
         });
 
         await newSens.save();
-        console.log('Sensor created');
     } else {
         sens.hourReadings.push(reading);
         await sens.save();
-        console.log('Reading pushed');
     }
 }
 

@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
       - name: collector
-        image: urosv/car-watcher-collector:1.0.3
+        image: urosv/car-watcher-collector:1.0.4
         ports:
         - containerPort: 3000
       initContainers:
